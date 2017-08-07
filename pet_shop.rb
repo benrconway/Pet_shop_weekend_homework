@@ -71,13 +71,14 @@ end
 
 
 def sell_pet_to_customer(shop, pet, customer)
-  puts pet
-  add_or_remove_cash(shop, pet[:price])
-  puts shop[:admin][:total_cash]
+  if pet == nil
+    return "We don't have this pet in our shop"
+  end
+  sufficient_funds = customer_can_afford_pet(customer, pet)
+  if sufficient_funds == false
+    return "Sorry, your card has been declined"
+  end
   add_pet_to_customer(customer, pet)
-
-  increase_pets_sold(shop, pet.count())
-  puts "shop has sold #{shop[:admin][:pets_sold]} pet(s)"
-  puts pet
-
+  add_or_remove_cash(shop, pet[:price])
+  increase_pets_sold(shop, 1)
 end
